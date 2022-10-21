@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Basics">
+            <menu>
+                <item
+                    android:id="@+id/home"
+                    android:icon="@drawable/ic_baseline_home_24"
+                    android:title="Home" />
+
+                <item
+                    android:id="@+id/msales"
+                    android:icon="@drawable/ic_baseline_point_of_sale_24"
+                    android:title="Monthly Sales"></item>
+                <item
+                    android:id="@+id/aSales"
+                    android:icon="@drawable/ic_baseline_point_of_sale_24"
+                    android:title="All Sales"></item>
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Cakes">
+            <menu>
+                <item
+                    android:id="@+id/new_cake"
+                    android:icon="@drawable/ic_baseline_add_24"
+                    android:title="Add New Cake"></item>
+                <item
+                    android:id="@+id/Show_all_Cakes"
+                    android:icon="@drawable/ic_baseline_preview_24"
+                    android:title="Show All Cakes"></item>
+                <item
+                    android:id="@+id/edit_cake_data"
+                    android:icon="@drawable/ic_baseline_edit_24"
+                    android:title="Edit Cakes"></item>
+
+            </menu>
+
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Orders">
+            <menu>
+                <item
+                    android:id="@+id/new_order"
+                    android:icon="@drawable/ic_baseline_add_24"
+                    android:title="New Order" />
+                <item
+                    android:id="@+id/upcoming_order"
+                    android:icon="@drawable/ic_baseline_assignment_late_24"
+                    android:title="Upcoming Orders"></item>
+                <item
+                    android:id="@+id/totalCompletedOrder"
+                    android:icon="@drawable/ic_baseline_cake_24"
+                    android:title="Completed Orders"></item>
+
+            </menu>
+        </item>
+    </group>
+
+
+</menu>

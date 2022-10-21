@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "584073660404",
+    "project_id": "cakebusinessmanager-177f4",
+    "storage_bucket": "cakebusinessmanager-177f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584073660404:android:3e5e14f318c58725d89ba1",
+        "android_client_info": {
+          "package_name": "com.example.cakebusinessmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584073660404-vtdkouj2m11rkmbhm2jvf522el3tpeus.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cakebusinessmanager",
+            "certificate_hash": "68920dd6bce6f16fefea9410712bd05a72849037"
+          }
+        },
+        {
+          "client_id": "584073660404-4t72nre19fgr446if78d33r698t2rbmk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5CBRO629kW79753-7AzCWva_I5gYOEDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584073660404-4t72nre19fgr446if78d33r698t2rbmk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
