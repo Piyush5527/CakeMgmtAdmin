@@ -213,42 +213,41 @@ public class AdminHomePage extends AppCompatActivity {
                             getStartDateTV.setText(stDate);
 //                            Toast.makeText(AdminHomePage.this, getStartDateTV.getText(), Toast.LENGTH_SHORT).show();
 //
+                            db.collection("CompletedOrders").get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            Date date = new Date();
+                                            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                                            int year = localDate.getYear();
+                                            int month = localDate.getMonthValue();
+                                            int day = localDate.getDayOfMonth();
+                                            String strtDate=getStartDateTV.getText().toString();
+                                            String endDt = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
+                                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                            try {
+                                                Date date1 = sdf.parse(strtDate);
+                                                Date date2=sdf.parse(endDt);
+                                                long diffInTime=date2.getTime()-date1.getTime();
+                                                float diff=(float) diffInTime/(24*60*60*1000);
+                                                if (task.isSuccessful()) {
+                                                    double totalSales=0.0d;
+                                                    for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                                                        totalSales=totalSales+Double.parseDouble(snapshot.getData().get("TotalPrice").toString());
+                                                    }
+                                                    double averageSales=totalSales/diff;
+                                                    avgSales.setText(String.valueOf(df.format(averageSales)));
+                                                }
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
                         }
                     }
                 });
 //                Toast.makeText(this, getStartDateTV.getText(), Toast.LENGTH_SHORT).show();
-                db.collection("CompletedOrders").get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                Date date = new Date();
-                                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                                int year = localDate.getYear();
-                                int month = localDate.getMonthValue();
-                                int day = localDate.getDayOfMonth();
-                                String strtDate=getStartDateTV.getText().toString();
-                                String endDt = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                try {
-                                    Date date1 = sdf.parse(strtDate);
-                                    Date date2=sdf.parse(endDt);
-                                    long diffInTime=date2.getTime()-date1.getTime();
-                                    float diff=(float) diffInTime/(24*60*60*1000);
 
-
-                                if (task.isSuccessful()) {
-                                    double totalSales=0.0d;
-                                    for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                        totalSales=totalSales+Double.parseDouble(snapshot.getData().get("TotalPrice").toString());
-                                    }
-                                    double averageSales=totalSales/diff;
-                                    avgSales.setText(String.valueOf(df.format(averageSales)));
-                                }
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
 
             } catch (Exception ex) {
                 ex.printStackTrace();
