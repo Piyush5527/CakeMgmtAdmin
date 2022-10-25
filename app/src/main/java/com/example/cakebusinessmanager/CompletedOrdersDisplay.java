@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +38,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 
-public class CompletedOrdersDisplay extends AppCompatActivity {
+public class CompletedOrdersDisplay extends DrawerBaseActivity {
     FirebaseFirestore db;
     TableLayout tl;
     ImageView iv;
@@ -50,7 +51,9 @@ public class CompletedOrdersDisplay extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_completed_orders_display);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View v = inflater.inflate(R.layout.activity_completed_orders_display, null, false);
+        dl.addView(v, 0);
 
         tl = findViewById(R.id.tableLayout);
         db = FirebaseFirestore.getInstance();
@@ -152,14 +155,39 @@ public class CompletedOrdersDisplay extends AppCompatActivity {
                             case R.id.messageCustomer:
 
                                 if (ContextCompat.checkSelfPermission(CompletedOrdersDisplay.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-//                                    Toast.makeText(CompletedOrdersDisplay.this, "hello1", Toast.LENGTH_SHORT).show();
                                     requestStoragePermission();
                                 } else {
                                     String orId = String.valueOf(cakeId.get(orderId));
-                                    Toast.makeText(CompletedOrdersDisplay.this, "hello", Toast.LENGTH_SHORT).show();
 //                                    Toast.makeText(CompletedOrdersDisplay.this, orId, Toast.LENGTH_SHORT).show();
-                                    String phNum = "7894561120";
-//                                    Toast.makeText(CompletedOrdersDisplay.this, phNum + "", Toast.LENGTH_SHORT).show();
+
+                                    DocumentReference ref = db.collection("CompletedOrders").document(orId);
+                                    ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot snapshot = task.getResult();
+                                                String phNum = String.valueOf(snapshot.getData().get("CustPhone"));
+                                                String custName = String.valueOf(snapshot.getData().get("CustName"));
+//                                                Toast.makeText(CompletedOrdersDisplay.this, phNum, Toast.LENGTH_SHORT).show();
+                                                DocumentReference shopRef = db.collection("Store_Details").document("StoreData");
+                                                shopRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            String shopName = String.valueOf(task.getResult().getData().get("ShopName"));
+                                                            String msg = "Hello " + custName + " Your order" + " will be Delivered today. If this order is not given by you please contact Thanks BY:-" + shopName + " ";
+                                                            SmsManager sms = SmsManager.getDefault();
+                                                            sms.sendTextMessage(phNum + "", shopName, msg + "", null, null);
+                                                            Snackbar.make(findViewById(R.id.drawerLayout), "Message Sent", Snackbar.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+
+
+                                            }
+                                        }
+                                    });
+
 //                                    String msg = "Hello " + c1.getString(2) + " Your order of " + c1.getString(1) + " will be Delivered today. If this order is not given by you please contact Thanks BY:-" + c2.getString(4) + " ";
 ////                                        Toast.makeText(CompletedOrdersDisplay.this, msg+"", Toast.LENGTH_SHORT).show();
 //                                    SmsManager sms = SmsManager.getDefault();
@@ -167,15 +195,22 @@ public class CompletedOrdersDisplay extends AppCompatActivity {
 //                                    Snackbar.make(findViewById(R.id.bg), "Message Sent", Snackbar.LENGTH_SHORT).show();
                                 }
                                 break;
-//                            case R.id.callCustomer:
-//                                int O_id = b1.getId();
-//                                Cursor c1 = db.rawQuery("select * from completedOrder where O_id=" + O_id, null);
-//                                c1.moveToFirst();
-//                                String phNum = c1.getString(7);
-//                                Intent callIntent = new Intent(Intent.ACTION_VIEW);
-//                                callIntent.setData(Uri.parse("tel:" + phNum));
-//                                startActivity(callIntent);
-//                                break;
+                            case R.id.callCustomer:
+                                String orId = String.valueOf(cakeId.get(orderId));
+                                DocumentReference ref = db.collection("CompletedOrders").document(orId);
+                                ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot snapshot = task.getResult();
+                                            String phNum = String.valueOf(snapshot.getData().get("CustPhone"));
+                                            Intent callIntent = new Intent(Intent.ACTION_VIEW);
+                                            callIntent.setData(Uri.parse("tel:" + phNum));
+                                            startActivity(callIntent);
+
+                                        }
+                                    }
+                                });
                         }
                         return true;
                     }
@@ -220,16 +255,15 @@ public class CompletedOrdersDisplay extends AppCompatActivity {
                         }
                     })
                     .create().show();
-        }
-        else {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.SEND_SMS}, SEND_SMS_CODE);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, SEND_SMS_CODE);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == SEND_SMS_CODE)  {
+        if (requestCode == SEND_SMS_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
             } else {

@@ -220,7 +220,7 @@ public class NewCakeOrder extends DrawerBaseActivity implements DatePickerDialog
                         int Extras = extras;
                         float TotPrice = Float.parseFloat(totPrice.getText().toString());
                         String cakeID = idOfCake;
-                        String CakeId="/Cake_Details/"+cakeID;
+                        String CakeId=cakeID;
 
                         Map<String, Object> NewOrder = new HashMap<>();
                         NewOrder.put("CustName", Name);
