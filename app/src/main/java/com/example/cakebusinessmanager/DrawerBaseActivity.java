@@ -67,23 +67,27 @@ public class DrawerBaseActivity extends AppCompatActivity {
                         break;
                     case R.id.upcoming_order:
                         Toast.makeText(DrawerBaseActivity.this, "Opening Upcoming Order", Toast.LENGTH_SHORT).show();
-//                        Intent i5 = new Intent(DrawerBaseActivity.this, UpcomingOrders.class);
-//                        startActivity(i5);
+                        Intent i5 = new Intent(DrawerBaseActivity.this, UpcomingOrders.class);
+                        finish();
+                        startActivity(i5);
                         break;
                     case R.id.msales:
                         Toast.makeText(DrawerBaseActivity.this, "Opening Month Sales", Toast.LENGTH_SHORT).show();
-//                        Intent i6=new Intent(DrawerBaseActivity.this,MonthlySalesDetails.class);
-//                        startActivity(i6);
+                        Intent i6=new Intent(DrawerBaseActivity.this,MonthlySales.class);
+                        finish();
+                        startActivity(i6);
                         break;
                     case R.id.aSales:
                         Toast.makeText(DrawerBaseActivity.this, "Opening All Sales", Toast.LENGTH_SHORT).show();
-//                        Intent i7=new Intent(DrawerBaseActivity.this,AllSales.class);
-//                        startActivity(i7);
+                        Intent i7=new Intent(DrawerBaseActivity.this,AllSales.class);
+                        finish();
+                        startActivity(i7);
                         break;
                     case R.id.totalCompletedOrder:
                         Toast.makeText(DrawerBaseActivity.this, "Opening Total Completed Order", Toast.LENGTH_SHORT).show();
-//                        Intent i8=new Intent(DrawerBaseActivity.this,CompletedOrdersDisplay.class);
-//                        startActivity(i8);
+                        Intent i8=new Intent(DrawerBaseActivity.this,CompletedOrdersDisplay.class);
+                        finish();
+                        startActivity(i8);
                         break;
                 }
                 return true;

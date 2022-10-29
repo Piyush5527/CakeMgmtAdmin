@@ -2,4 +2,5 @@
     <string name="app_name">Cake Business Manager</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="this_month_sales">This Month Sales</string>
 </resources>

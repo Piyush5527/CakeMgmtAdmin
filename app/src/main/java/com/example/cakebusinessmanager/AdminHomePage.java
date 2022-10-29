@@ -109,13 +109,13 @@ public class AdminHomePage extends AppCompatActivity {
                         break;
                     case R.id.msales:
                         Toast.makeText(AdminHomePage.this, "Opening Month Sales", Toast.LENGTH_SHORT).show();
-//                        Intent i6=new Intent(AdminHomePage.this,MonthlySalesDetails.class);
-//                        startActivity(i6);
+                        Intent i6=new Intent(AdminHomePage.this,MonthlySales.class);
+                        startActivity(i6);
                         break;
                     case R.id.aSales:
                         Toast.makeText(AdminHomePage.this, "Opening All Sales", Toast.LENGTH_SHORT).show();
-//                        Intent i7=new Intent(AdminHomePage.this,AllSales.class);
-//                        startActivity(i7);
+                        Intent i7=new Intent(AdminHomePage.this,AllSales.class);
+                        startActivity(i7);
                         break;
                     case R.id.totalCompletedOrder:
                         Toast.makeText(AdminHomePage.this, "Opening Total Completed Order", Toast.LENGTH_SHORT).show();
