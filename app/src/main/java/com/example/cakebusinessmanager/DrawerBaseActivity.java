@@ -24,7 +24,6 @@ public class DrawerBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer_base);
 
-
         dl=findViewById(R.id.drawerLayout);
         tog = new ActionBarDrawerToggle(DrawerBaseActivity.this, dl, 0,0);
         tog.syncState();
