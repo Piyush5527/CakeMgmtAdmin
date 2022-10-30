@@ -55,6 +55,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CompletedOrdersDisplay extends DrawerBaseActivity {
@@ -65,6 +66,7 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
     private static final int img_from_gallery = 1;
     private static int orderID;
     private final int PICK_IMAGE_REQUEST = 22;
+    HashMap<Integer, Object> compOrId = new HashMap<>();
     HashMap<Integer, Object> cakeId = new HashMap<>();
     private int SEND_SMS_CODE = 1;
     private Uri filePath;
@@ -88,36 +90,37 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            if (task != null) {
-                                int cnt = 0;
-                                int SNo = 1;
+                            int cnt = 0;
+                            int SNo = 1;
 
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    final int id = cnt;
-                                    String custName = document.getData().get("CustName").toString();
-                                    String totalPrice = document.getData().get("TotalPrice").toString();
-                                    String Date = document.getData().get("OrderDate").toString();
-                                    String oId = document.getId();
-                                    DocumentReference docRef = db.collection("Cake_Details").document(document.getData().get("CakeId").toString());
-                                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                DocumentSnapshot snapshot = task.getResult();
-                                                if (snapshot.exists()) {
-                                                    String cakeName = snapshot.getData().get("CakeName").toString();
-                                                    cakeId.put(id, oId);
-                                                    tableDataSetter(custName, totalPrice, Date, cakeName, id);
-                                                }
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                final int id = cnt;
+                                String custName = String.valueOf(document.getData().get("CustName"));
+                                String totalPrice = String.valueOf(document.getData().get("TotalPrice"));
+                                String Date = String.valueOf(document.getData().get("OrderDate"));
+                                String oId = document.getId();
+                                String ckId = String.valueOf(document.getData().get("CakeId"));
+                                DocumentReference docRef = db.collection("Cake_Details").document(document.getData().get("CakeId").toString());
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot snapshot = task.getResult();
+                                            if (snapshot.exists()) {
+                                                String cakeName = snapshot.getData().get("CakeName").toString();
+                                                compOrId.put(id, oId);
+                                                cakeId.put(id, ckId);
+                                                tableDataSetter(custName, totalPrice, Date, cakeName, id);
                                             }
                                         }
-                                    });
-                                    cnt++;
-                                }
-
+                                    }
+                                });
+                                cnt++;
                             }
+
                         }
                     }
+
                 });
     }
 
@@ -165,7 +168,7 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(CompletedOrdersDisplay.this, String.valueOf(cakeId.get(orderId)), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CompletedOrdersDisplay.this, String.valueOf(compOrId.get(orderId)), Toast.LENGTH_SHORT).show();
                 PopupMenu pop = new PopupMenu(CompletedOrdersDisplay.this, b1);
                 pop.getMenuInflater().inflate(R.menu.contact_menu, pop.getMenu());
                 pop.show();
@@ -178,7 +181,7 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                                 if (ContextCompat.checkSelfPermission(CompletedOrdersDisplay.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                                     requestStoragePermission();
                                 } else {
-                                    String orId = String.valueOf(cakeId.get(orderId));
+                                    String orId = String.valueOf(compOrId.get(orderId));
 //                                    Toast.makeText(CompletedOrdersDisplay.this, orId, Toast.LENGTH_SHORT).show();
 
                                     DocumentReference ref = db.collection("CompletedOrders").document(orId);
@@ -217,7 +220,7 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                                 }
                                 break;
                             case R.id.callCustomer:
-                                String orId = String.valueOf(cakeId.get(orderId));
+                                String orId = String.valueOf(compOrId.get(orderId));
                                 DocumentReference ref = db.collection("CompletedOrders").document(orId);
                                 ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
@@ -258,22 +261,35 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.chooseImg:
                                 orderID = b2.getId();
-                                selectImage(String.valueOf(cakeId.get(orderID)));
+                                selectImage(String.valueOf(compOrId.get(orderID)));
 //                                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //                                startActivityForResult(Intent.createChooser(i, "Choose Action"), img_from_gallery);
                                 break;
 
                             case R.id.viewImg:
-                                Toast.makeText(CompletedOrdersDisplay.this, "Pic View Page", Toast.LENGTH_SHORT).show();
-//                                orderID = b2.getId();
-//                                Cursor c = db.rawQuery("select imgPath from completedOrder where O_id=" + orderID, null);
-//                                c.moveToFirst();
-//                                String pathOfImage = c.getString(0);
-//                                Intent i2 = new Intent(CompletedOrdersDisplay.this, cakeImageView.class);
-////                                    Toast.makeText(getApplicationContext(), pathOfImage+"", Toast.LENGTH_SHORT).show();
-//
-//                                i2.putExtra("path", pathOfImage);
-//                                startActivity(i2);
+//                                Toast.makeText(CompletedOrdersDisplay.this, "Pic View Page", Toast.LENGTH_SHORT).show();
+                                String orderId =  Objects.requireNonNull(compOrId.get(b2.getId())).toString();
+                                DocumentReference ref=db.collection("ImageMapper").document(orderId);
+                                ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful())
+                                        {
+                                            boolean isImageAvailable=task.getResult().exists();
+                                            if(isImageAvailable == false)
+                                            {
+                                                Toast.makeText(CompletedOrdersDisplay.this, "Image Not available", Toast.LENGTH_SHORT).show();
+                                            }
+                                            else
+                                            {
+                                                Toast.makeText(CompletedOrdersDisplay.this, "Opening Image", Toast.LENGTH_SHORT).show();
+                                                Intent intent=new Intent(CompletedOrdersDisplay.this,CakePicView.class);
+                                                intent.putExtra("ImageMapperID",orderId);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    }
+                                });
                                 break;
                         }
 
@@ -323,11 +339,30 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-            String fileNameWithUUID= UUID.randomUUID().toString();
+            String fileNameWithUUID = UUID.randomUUID().toString();
+
+            HashMap<String, Object> newImageMapper = new HashMap<>();
+            newImageMapper.put("OrderId", compOrId.get(orderID));
+            newImageMapper.put("CakeId", cakeId.get(orderID));
+            newImageMapper.put("ImageName", fileNameWithUUID);
+
+            db.collection("ImageMapper").document((String) Objects.requireNonNull(compOrId.get(orderID))).set(newImageMapper)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
 
 //            Toast.makeText(this, , Toast.LENGTH_SHORT).show();
             // Defining the child of storageReference
-            StorageReference ref = storageReference.child("cake images/" +fileNameWithUUID);
+            StorageReference ref = storageReference.child("cake images/" + fileNameWithUUID);
 
             // adding listeners on upload
             // or failure of image
@@ -350,7 +385,8 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                             new OnProgressListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onProgress(
-                                        UploadTask.TaskSnapshot taskSnapshot) {double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                        UploadTask.TaskSnapshot taskSnapshot) {
+                                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                                     progressDialog.setMessage("Uploaded " + (int) progress + "%");
                                 }
                             });
