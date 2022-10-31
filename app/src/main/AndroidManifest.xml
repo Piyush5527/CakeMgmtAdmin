@@ -16,6 +16,7 @@
         android:theme="@style/Theme.CakeBusinessManager">
         <activity
             android:name=".CakePicView"
+            android:theme="@style/Theme.AppCompat.Light"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -268,23 +268,19 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
 
                             case R.id.viewImg:
 //                                Toast.makeText(CompletedOrdersDisplay.this, "Pic View Page", Toast.LENGTH_SHORT).show();
-                                String orderId =  Objects.requireNonNull(compOrId.get(b2.getId())).toString();
-                                DocumentReference ref=db.collection("ImageMapper").document(orderId);
+                                String orderId = Objects.requireNonNull(compOrId.get(b2.getId())).toString();
+                                DocumentReference ref = db.collection("ImageMapper").document(orderId);
                                 ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if(task.isSuccessful())
-                                        {
-                                            boolean isImageAvailable=task.getResult().exists();
-                                            if(isImageAvailable == false)
-                                            {
+                                        if (task.isSuccessful()) {
+                                            boolean isImageAvailable = task.getResult().exists();
+                                            if (isImageAvailable == false) {
                                                 Toast.makeText(CompletedOrdersDisplay.this, "Image Not available", Toast.LENGTH_SHORT).show();
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 Toast.makeText(CompletedOrdersDisplay.this, "Opening Image", Toast.LENGTH_SHORT).show();
-                                                Intent intent=new Intent(CompletedOrdersDisplay.this,CakePicView.class);
-                                                intent.putExtra("ImageMapperID",orderId);
+                                                Intent intent = new Intent(CompletedOrdersDisplay.this, CakePicView.class);
+                                                intent.putExtra("ImageMapperID", orderId);
                                                 startActivity(intent);
                                             }
                                         }
@@ -323,6 +319,7 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
+//            Toast.makeText(this, filePath, Toast.LENGTH_SHORT).show();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 imageView.setImageBitmap(bitmap);
@@ -384,8 +381,7 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                     .addOnProgressListener(
                             new OnProgressListener<UploadTask.TaskSnapshot>() {
                                 @Override
-                                public void onProgress(
-                                        UploadTask.TaskSnapshot taskSnapshot) {
+                                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                                     double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                                     progressDialog.setMessage("Uploaded " + (int) progress + "%");
                                 }
