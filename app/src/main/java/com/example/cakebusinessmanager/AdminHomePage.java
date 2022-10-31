@@ -122,6 +122,10 @@ public class AdminHomePage extends AppCompatActivity {
                         Intent i8 = new Intent(AdminHomePage.this, CompletedOrdersDisplay.class);
                         startActivity(i8);
                         break;
+                    case R.id.manageAcc:
+                        Toast.makeText(AdminHomePage.this, "Opening Account", Toast.LENGTH_SHORT).show();
+                        Intent i9=new Intent(AdminHomePage.this,AccountPage.class);
+                        startActivity(i9);
                 }
                 return true;
             }

@@ -295,13 +295,13 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
             }
         });
 
-        Button b3 = new Button(this);
-        b3.setText("View");
-        b3.setGravity(Gravity.CENTER);
-        b3.setTextColor(Color.BLACK);
-        b3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-//        b3.setId(c.getInt(0));
-        row.addView(b3);
+//        Button b3 = new Button(this);
+//        b3.setText("View");
+//        b3.setGravity(Gravity.CENTER);
+//        b3.setTextColor(Color.BLACK);
+//        b3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+////        b3.setId(c.getInt(0));
+//        row.addView(b3);
 
         tl.addView(row);
     }

@@ -12,11 +12,11 @@
                 <item
                     android:id="@+id/msales"
                     android:icon="@drawable/ic_baseline_point_of_sale_24"
-                    android:title="Monthly Sales"></item>
+                    android:title="Monthly Sales"/>
                 <item
                     android:id="@+id/aSales"
                     android:icon="@drawable/ic_baseline_point_of_sale_24"
-                    android:title="All Sales"></item>
+                    android:title="All Sales"/>
             </menu>
         </item>
     </group>
@@ -26,15 +26,15 @@
                 <item
                     android:id="@+id/new_cake"
                     android:icon="@drawable/ic_baseline_add_24"
-                    android:title="Add New Cake"></item>
+                    android:title="Add New Cake"/>
                 <item
                     android:id="@+id/Show_all_Cakes"
                     android:icon="@drawable/ic_baseline_preview_24"
-                    android:title="Show All Cakes"></item>
+                    android:title="Show All Cakes"/>
                 <item
                     android:id="@+id/edit_cake_data"
                     android:icon="@drawable/ic_baseline_edit_24"
-                    android:title="Edit Cakes"></item>
+                    android:title="Edit Cakes"/>
 
             </menu>
 
@@ -50,12 +50,21 @@
                 <item
                     android:id="@+id/upcoming_order"
                     android:icon="@drawable/ic_baseline_assignment_late_24"
-                    android:title="Upcoming Orders"></item>
+                    android:title="Upcoming Orders"/>
                 <item
                     android:id="@+id/totalCompletedOrder"
                     android:icon="@drawable/ic_baseline_cake_24"
-                    android:title="Completed Orders"></item>
-
+                    android:title="Completed Orders"/>
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Account">
+            <menu>
+                <item
+                    android:id="@+id/manageAcc"
+                    android:title="Manage Account"
+                    android:icon="@drawable/ic_baseline_manage_accounts_24"/>
             </menu>
         </item>
     </group>
