@@ -338,24 +338,7 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
             progressDialog.show();
             String fileNameWithUUID = UUID.randomUUID().toString();
 
-            HashMap<String, Object> newImageMapper = new HashMap<>();
-            newImageMapper.put("OrderId", compOrId.get(orderID));
-            newImageMapper.put("CakeId", cakeId.get(orderID));
-            newImageMapper.put("ImageName", fileNameWithUUID);
 
-            db.collection("ImageMapper").document((String) Objects.requireNonNull(compOrId.get(orderID))).set(newImageMapper)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                        }
-                    });
 
 //            Toast.makeText(this, , Toast.LENGTH_SHORT).show();
             // Defining the child of storageReference
@@ -368,8 +351,39 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(CompletedOrdersDisplay.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                                }
+
+                                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            String generatedFilePath = uri.toString();
+                                            Toast.makeText(CompletedOrdersDisplay.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+
+                                            HashMap<String, Object> newImageMapper = new HashMap<>();
+                                            newImageMapper.put("OrderId", compOrId.get(orderID));
+                                            newImageMapper.put("CakeId", cakeId.get(orderID));
+                                            newImageMapper.put("ImageName", fileNameWithUUID);
+                                            newImageMapper.put("ImageUrl", generatedFilePath);
+
+                                            db.collection("ImageMapper").document((String) Objects.requireNonNull(compOrId.get(orderID))).set(newImageMapper)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+
+                                                        }
+                                                    });
+                                        }
+                                    });
+
+
+
+                                    }
+
                             })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -388,6 +402,10 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                             });
         }
     }
+
+
+
+
 
     private void requestStoragePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {

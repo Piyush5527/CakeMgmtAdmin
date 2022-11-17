@@ -131,6 +131,8 @@ public class AdminHomePage extends AppCompatActivity {
             }
         });
     }
+
+
     public void setData() {
         DocumentReference reference = db.collection("Store_Details").document("StoreData");
         reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

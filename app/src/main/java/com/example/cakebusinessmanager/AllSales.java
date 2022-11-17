@@ -27,7 +27,7 @@ public class AllSales extends DrawerBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = LayoutInflater.from(this);
-        View v = inflater.inflate(R.layout.activity_monthly_sales, null, false);
+        View v = inflater.inflate(R.layout.activity_all_sales, null, false);
         dl.addView(v, 0);
 
         tl = findViewById(R.id.tableLayout);
