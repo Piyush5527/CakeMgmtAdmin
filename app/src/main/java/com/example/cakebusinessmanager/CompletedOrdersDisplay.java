@@ -142,6 +142,13 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
         tv1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
         row.addView(tv1);
 
+        TextView tv3 = new TextView(this);
+        tv3.setText(cakeName);
+        tv3.setGravity(Gravity.CENTER);
+        tv3.setTextColor(Color.BLACK);
+        tv3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+        row.addView(tv3);
+
         TextView tv2 = new TextView(this);
         tv2.setText(orderDate);
         tv2.setGravity(Gravity.CENTER);
@@ -150,12 +157,7 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
         tv2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
         row.addView(tv2);
 
-        TextView tv3 = new TextView(this);
-        tv3.setText(cakeName);
-        tv3.setGravity(Gravity.CENTER);
-        tv3.setTextColor(Color.BLACK);
-        tv3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-        row.addView(tv3);
+
 
         Button b1 = new Button(this);
         b1.setText("Contact");

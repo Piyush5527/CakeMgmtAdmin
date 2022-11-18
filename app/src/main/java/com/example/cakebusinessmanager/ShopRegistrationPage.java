@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -78,6 +79,9 @@ public class ShopRegistrationPage extends AppCompatActivity implements DatePicke
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Snackbar.make(layout,"Account Successfully Created",Snackbar.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(ShopRegistrationPage.this,AdminHomePage.class);
+                                    startActivity(intent);
+                                    finish();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
