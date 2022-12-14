@@ -140,8 +140,15 @@ public class UpcomingOrders extends DrawerBaseActivity {
                                                                             OrderCompleted.put("ExtraPrice", snapshot.getData().get("ExtraPrice").toString());
                                                                             OrderCompleted.put("TotalPrice", snapshot.getData().get("TotalPrice"));
                                                                             OrderCompleted.put("CakeId", snapshot.getData().get("CakeId").toString());
-                                                                            OrderCompleted.put("PaymentStatus",false);
+                                                                            OrderCompleted.put("CakeName", snapshot.getData().get("CakeName").toString());
 
+                                                                            OrderCompleted.put("PaymentStatus",false);
+                                                                            try{
+                                                                                OrderCompleted.put("UserId",snapshot.getData().get("UserId").toString());
+                                                                            }
+                                                                            catch (Exception ex)
+                                                                            {
+                                                                            }
                                                                             db.collection("CompletedOrders").document().set(OrderCompleted)
                                                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                         @Override

@@ -88,6 +88,12 @@ public class DrawerBaseActivity extends AppCompatActivity {
                         finish();
                         startActivity(i8);
                         break;
+//                    case R.id.setExtraDetails:
+//                        Toast.makeText(DrawerBaseActivity.this, "Opening Maps", Toast.LENGTH_SHORT).show();
+//                        Intent i9=new Intent(DrawerBaseActivity.this,CompletedOrdersDisplay.class);
+//                        finish();
+//                        startActivity(i9);
+//                        break;
                 }
                 return true;
             }

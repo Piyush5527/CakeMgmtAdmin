@@ -158,7 +158,6 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
         row.addView(tv2);
 
 
-
         Button b1 = new Button(this);
         b1.setText("Contact");
         b1.setGravity(Gravity.CENTER);
@@ -341,7 +340,6 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
             String fileNameWithUUID = UUID.randomUUID().toString();
 
 
-
 //            Toast.makeText(this, , Toast.LENGTH_SHORT).show();
             // Defining the child of storageReference
             StorageReference ref = storageReference.child("cake images/" + fileNameWithUUID);
@@ -383,8 +381,7 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                                     });
 
 
-
-                                    }
+                                }
 
                             })
                     .addOnFailureListener(new OnFailureListener() {
@@ -404,9 +401,6 @@ public class CompletedOrdersDisplay extends DrawerBaseActivity {
                             });
         }
     }
-
-
-
 
 
     private void requestStoragePermission() {

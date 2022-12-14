@@ -178,9 +178,6 @@ public class AddNewCake extends DrawerBaseActivity {
                                 progressDialog.setMessage("Uploaded " + (int) progress + "%");
                             }
                         });
-                        ;
-
-
                     }
                 } catch (Exception Ex) {
                     Ex.printStackTrace();

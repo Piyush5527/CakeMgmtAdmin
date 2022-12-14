@@ -65,6 +65,10 @@
                     android:id="@+id/manageAcc"
                     android:title="Manage Account"
                     android:icon="@drawable/ic_baseline_manage_accounts_24"/>
+<!--            <item-->
+<!--                    android:id="@+id/setExtraDetails"-->
+<!--                    android:title="Set Shop Location"-->
+<!--                    android:icon="@drawable/ic_baseline_manage_accounts_24"/>-->
             </menu>
         </item>
     </group>
